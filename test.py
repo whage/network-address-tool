@@ -1,37 +1,32 @@
 import subprocess
 import re
 
-class NetworkManager:
-    def ifconfig(self):
-        return subprocess.check_output(["ifconfig"])
-
-class IPAddressParser:
+class IfconfigParser:
     def __init__(self, str):
         self.raw_data = str
 
     def parse_ipv4_addresses(self):
-        tuples = self.parse_address_mask_tuples()
+        # TODO: separate expressions, add expression for ipv6 too
+        expression = "inet addr:(\S+).*Mask:(\S+)"
+        tuples = re.findall(expression, self.raw_data)
 
-        return self.extend_with_prefix(tuples)
+        return [(t[0], t[1], self.mask_to_prefix(t[1])) for t in tuples]
 
-    def extend_with_prefix(self, tuples):
-        results = []
+    def mask_to_prefix(self, mask):
+        return sum([bin(int(x)).count('1') for x in mask.split('.')])
 
-        for tuple in tuples:
-            results.append((tuple[0], tuple[1], self.get_prefix(tuple[1])))
+    def get_addresses(self, with_prefix = False):
+        addresses = self.parse_ipv4_addresses()
+
+        results = [a[0] for a in addresses]
+
+        if with_prefix:
+            results = [a[0] + '/' + str(a[2]) for a in addresses]
 
         return results
 
-    def get_prefix(self, mask):
-        prefix = sum([bin(int(x)).count('1') for x in mask.split('.')])
-        return prefix
 
-    def parse_address_mask_tuples(self):
-        expression = "inet addr:(\S+).*Mask:(\S+)"
-        return re.findall(expression, self.raw_data)
+ifconfig_output = subprocess.check_output(["ifconfig"])
+p = IfconfigParser(ifconfig_output)
 
-
-nm = NetworkManager()
-p = IPAddressParser(nm.ifconfig())
-
-print p.parse_ipv4_addresses()
+print "\n".join(p.get_addresses(True))
