@@ -1,20 +1,12 @@
 import subprocess
 import re
-
-class Address:
-    def __init__(self, address, mask):
-        self.address = address
-        self.mask = mask
-
-    def get_range(self):
-        pass
+import ipaddress
 
 class IfconfigParser:
     def __init__(self, str):
         self.raw_data = str
 
     def parse_ipv4_addresses(self):
-        # TODO: separate expressions, add expression for ipv6 too
         expression = "inet addr:(\S+).*Mask:(\S+)"
         tuples = re.findall(expression, self.raw_data)
 
@@ -40,7 +32,13 @@ class IfconfigParser:
         pass
 
 
-ifconfig_output = subprocess.check_output(["ifconfig"])
+ifconfig_output = subprocess.getoutput(["ifconfig"])
 p = IfconfigParser(ifconfig_output)
 
-print "\n".join(p.get_addresses(True))
+print("\n".join(p.get_addresses(True)))
+
+# build a list of Networks using the ip_network factory function
+networks = [ipaddress.ip_network(addr, False) for addr in p.get_addresses(True)]
+networks.sort(key = lambda n: n.network_address)
+
+print([n.network_address for n in networks])
