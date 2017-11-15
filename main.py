@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import argparse
 
 # TODO __name__ ?
