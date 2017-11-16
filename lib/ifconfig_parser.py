@@ -1,4 +1,5 @@
 import re
+from . import util
 
 class IfconfigParser:
     def __init__(self, str):
@@ -8,7 +9,4 @@ class IfconfigParser:
         expression = "inet addr:(\S+).*Mask:(\S+)"
         tuples = re.findall(expression, self.raw_data)
 
-        return [(t[0], t[1], self.mask_to_prefix(t[1])) for t in tuples]
-
-    def mask_to_prefix(self, mask):
-        return sum([bin(int(x)).count('1') for x in mask.split('.')])
+        return [(t[0], t[1], util.mask_to_prefix(t[1])) for t in tuples]

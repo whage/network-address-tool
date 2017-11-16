@@ -1,21 +1,25 @@
 import unittest
+
+from netaddrtool.lib.ifconfig_parser import IfconfigParser
+from netaddrtool.lib.subnet_manager import SubnetManager
+from netaddrtool.lib import util
  
 class NetAddToolTest(unittest.TestCase):
-
     def test_mask_to_prefix(self):
-        p = IfconfigParser()
-        self.assertEqual(12, p.mask_to_prefix("255.240.0.0"))
-        self.assertEqual(16, p.mask_to_prefix("255.255.0.0"))
+        self.assertEqual(12, util.mask_to_prefix("255.240.0.0"))
+        self.assertEqual(16, util.mask_to_prefix("255.255.0.0"))
  
     def test_parses_ifconfig_correctly(self):
-        test_string = "inet addr:172.16.17.3  P-t-P:172.16.17.3  Mask:255.255.255.0" \
-            "inet addr:192.168.0.10  Bcast:192.168.0.255  Mask:255.255.0.0"
+        with open('test/data/ifconfig_sample.txt') as f:
+            test_string = f.read()
 
         p = IfconfigParser(test_string)
 
         self.assertEqual([
-            ("172.16.17.3", "255.255.255.0", "24"),
-            ("192.168.0.10", "255.255.0.0", "16"),
+            ("192.168.1.29", "255.255.255.0", 24),
+            ("127.0.0.1", "255.0.0.0", 8),
+            ("192.168.1.64", "255.240.0.0", 12),
+            ("172.16.17.3", "255.255.192.0", 18),
         ], p.parse_ipv4_addresses())
 
     def test_overlapping_subnets(self):
