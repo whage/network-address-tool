@@ -12,6 +12,7 @@ class SubnetManager:
 
         return results
 
+    # returns a list of sets where each set contains overlapping pairs
     def get_overlapping_subnets(self, address_tuples):
         # build a list of Networks using the ip_network factory function
         networks = [ipaddress.ip_network(addr, False) for addr in self.get_addresses(address_tuples, True)]
@@ -20,6 +21,6 @@ class SubnetManager:
         # build all posible 2-tuples of networks
         for n1, n2 in itertools.combinations(networks, 2):
             if (n1.overlaps(n2)):
-                overlapping_pairs.add((n1, n2))
+                overlapping_networks.append({n1, n2})
 
         return overlapping_networks
