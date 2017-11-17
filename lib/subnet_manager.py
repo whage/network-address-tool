@@ -1,4 +1,5 @@
 import itertools
+import ipaddress
 
 class SubnetManager:
     def pluck_address(self, address_tuples, with_prefix = False):
@@ -9,7 +10,9 @@ class SubnetManager:
 
         return results
 
-    def get_overlapping_subnets(self, networks):
+    def get_overlapping_subnets(self, address_tuples):
+        # build a list of Networks using the ip_network factory function
+        networks = [ipaddress.ip_network(addr, False) for addr in self.pluck_address(address_tuples, True)]
         overlapping_networks = []
 
         # build all posible 2-tuples of networks

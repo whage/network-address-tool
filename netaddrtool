@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import subprocess
-import ipaddress
 
 from lib.ifconfig_parser import IfconfigParser
 from lib.subnet_manager import SubnetManager
@@ -23,19 +22,16 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-
     ifconfig_output = subprocess.getoutput(["ifconfig"])
+
+    # instantiate parser and subnet manager
     p = IfconfigParser(ifconfig_output)
-
-    address_tuples = p.parse_ipv4_addresses()
-
     sm = SubnetManager()
 
-    print("\n".join(sm.pluck_address(address_tuples, True)))
+    # get addresses
+    address_tuples = p.parse_ipv4_addresses()
 
-    # build a list of Networks using the ip_network factory function
-    networks = [ipaddress.ip_network(addr, False) for addr in sm.pluck_address(address_tuples, True)]
-
-    print([n.network_address for n in networks])
-
-    print(sm.get_overlapping_subnets(networks))
+    if args.overlapping == False:
+        print("\n".join(sm.pluck_address(address_tuples, args.with_prefix)))
+    else:
+        print("\n".join(sm.get_overlapping_subnets(address_tuples)))
