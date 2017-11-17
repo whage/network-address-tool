@@ -8,4 +8,4 @@ Tested with
 To run tests
 
 - install nosetests: `pip install nose`
-- run `nosetests test` in the root dir of this package
+- run `./testrunner` in the root dir of this package
