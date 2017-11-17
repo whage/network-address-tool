@@ -34,4 +34,7 @@ if __name__ == '__main__':
     if args.overlapping == False:
         print("\n".join(sm.get_addresses(address_tuples, args.with_prefix)))
     else:
-        print("\n".join(sm.get_overlapping_subnets(address_tuples)))
+        sets = sm.get_overlapping_subnets(address_tuples)
+
+        # separate overlapping pairs with a double new-line
+        print("\n\n".join(["\n".join(set) for set in sets]))

@@ -1,5 +1,4 @@
 import unittest
-import ipaddress
 
 from lib.ifconfig_parser import IfconfigParser
 from lib.subnet_manager import SubnetManager
@@ -36,6 +35,6 @@ class NetAddToolTest(unittest.TestCase):
         overlapping_pairs = sm.get_overlapping_subnets(addresses)
 
         self.assertEqual([
-            {ipaddress.ip_network('192.168.1.29/24', False), ipaddress.ip_network('192.168.1.64/12', False)},
-            {ipaddress.ip_network('4.5.2.1/22', False), ipaddress.ip_network('4.5.0.3/16', False)},
+            {'192.168.1.29/24', '192.168.1.64/12'},
+            {'4.5.2.1/22', '4.5.0.3/16'},
         ], overlapping_pairs)
