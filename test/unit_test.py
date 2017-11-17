@@ -20,6 +20,8 @@ class NetAddToolTest(unittest.TestCase):
             ("127.0.0.1", "255.0.0.0"),
             ("192.168.1.64", "255.240.0.0"),
             ("172.16.17.3", "255.255.192.0"),
+            ("4.5.0.3", "255.255.0.0"),
+            ("4.5.2.1", "255.255.252.0"),
         ], p.parse_ipv4_addresses())
 
     def test_overlapping_subnets(self):

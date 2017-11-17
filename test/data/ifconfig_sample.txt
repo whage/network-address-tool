@@ -33,3 +33,20 @@ tun0      Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
           TX packets:78 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:100 
           RX bytes:380 (380.0 B)  TX bytes:4224 (4.2 KB)
+
+tul1      Link encap:Ethernet  HWaddr 00:80:C8:F8:4A:51
+          inet addr:4.5.0.3  Bcast:192.168.99.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:190312 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:86955 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:100 
+          RX bytes:30701229 (29.2 Mb)  TX bytes:7878951 (7.5 Mb)
+          Interrupt:9 Base address:0x5000 
+
+ko        Link encap:Local Loopback  
+          inet addr:4.5.2.1  Mask:255.255.252.0
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:306 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:306 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:29504 (28.8 Kb)  TX bytes:29504 (28.8 Kb)
