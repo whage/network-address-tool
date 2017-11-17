@@ -32,6 +32,6 @@ if __name__ == '__main__':
     address_tuples = p.parse_ipv4_addresses()
 
     if args.overlapping == False:
-        print("\n".join(sm.pluck_address(address_tuples, args.with_prefix)))
+        print("\n".join(sm.get_addresses(address_tuples, args.with_prefix)))
     else:
         print("\n".join(sm.get_overlapping_subnets(address_tuples)))
