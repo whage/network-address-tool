@@ -9,7 +9,7 @@ class IpParser:
         	self.raw_data = subprocess.getoutput(["ip a"])
 
     def parse_ipv4_addresses(self):
-        expression = "inet (\S+).*?"
+        expression = "inet (\S+).*?\/(\d*)"
         matches = re.findall(expression, self.raw_data)
 
         return [(m[0], m[1]) for m in matches]

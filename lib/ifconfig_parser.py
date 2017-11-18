@@ -1,6 +1,8 @@
 import re
 import subprocess
 
+from . import util
+
 class IfconfigParser:
     def __init__(self, command_output = None):
         self.raw_data = command_output
@@ -10,6 +12,6 @@ class IfconfigParser:
 
     def parse_ipv4_addresses(self):
         expression = "inet addr:(\S+).*Mask:(\S+)"
-        tuples = re.findall(expression, self.raw_data)
+        matches = re.findall(expression, self.raw_data)
 
-        return [(t[0], t[1]) for t in tuples]
+        return [(m[0], util.mask_to_prefix(m[1])) for m in matches]

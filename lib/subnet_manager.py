@@ -1,14 +1,12 @@
 import itertools
 import ipaddress
 
-from . import util
-
 class SubnetManager:
     def get_addresses(self, address_tuples, with_prefix = False):
         results = [a[0] for a in address_tuples]
 
         if with_prefix:
-            results = [a[0] + '/' + str(util.mask_to_prefix(a[1])) for a in address_tuples]
+            results = [a[0] + '/' + str((a[1])) for a in address_tuples]
 
         return results
 
