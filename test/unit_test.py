@@ -4,7 +4,7 @@ from lib.ifconfig_parser import IfconfigParser
 from lib.subnet_manager import SubnetManager
 from lib import util
 
-class NetAddToolTest(unittest.TestCase):
+class NetworkAddressToolTest(unittest.TestCase):
     def test_mask_to_prefix(self):
         self.assertEqual(12, util.mask_to_prefix("255.240.0.0"))
         self.assertEqual(16, util.mask_to_prefix("255.255.0.0"))
