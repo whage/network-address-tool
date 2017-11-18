@@ -1,14 +1,12 @@
 import re
-import subprocess
 
-from . import util
+from lib import util
+from lib.base_parser import BaseParser
 
-class IfconfigParser:
+class IfconfigParser(BaseParser):
     def __init__(self, command_output = None):
-        self.raw_data = command_output
-
-        if not command_output:
-        	self.raw_data = subprocess.getoutput(["ifconfig"])
+        self.command = "ifconfig"
+        self.init_raw_data(command_output)
 
     def parse_ipv4_addresses(self):
         expression = "inet addr:(\S+).*Mask:(\S+)"
